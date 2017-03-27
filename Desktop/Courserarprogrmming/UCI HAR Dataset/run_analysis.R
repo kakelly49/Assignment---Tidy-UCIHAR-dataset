@@ -57,15 +57,15 @@
       levels(mergedata$activity) = activity_labels
 
 ## Create a vector of desired column names containing - "mean",
-## "std", "user", "activity" anywhere in the column name
+## "std", "subject", "activity" anywhere in the column name
 ## unselect columns with "angle" in the column name 
       makecolnames<-grep("angle",makecolnames,invert=TRUE,value=TRUE)
-      column_names<-grep("mean|user|std|activity",makecolnames,value=TRUE)
+      column_names<-grep("mean|subject|std|activity",makecolnames,value=TRUE)
 
-##select the columns I want - contain "mean","user" or "std" or "activity" in column name
+##select the columns I want - contain "mean","subject" or "std" or "activity" in column name
       l<-length(column_names)
       tidyUCIHAR<-subset(mergedata, select=column_names[1:l])
-      write.csv(tidyUCIHAR, file="tidyUCIHAR.csv")
+      write.table(tidyUCIHAR, file="tidyUCIHAR.txt",row.name=FALSE)
 
 
 
