@@ -66,7 +66,36 @@
       l<-length(column_names)
       tidyUCIHAR<-subset(mergedata, select=column_names[1:l])
       write.table(tidyUCIHAR, file="tidyUCIHAR.txt",row.name=FALSE)
+## Add a new data element by pasting subject and activity
+## Split tidy UCIHAR on the new value subjactivity
+## Process each matrix formed by the split fuction and calculate the mean
 
+        tempfile<-mutate(tidyUCIHAR,subjactivity=paste(tidyUCIHAR$subject,tidyUCIHAR$activity))
+        splitfile <-split(tempfile,tempfile$subjactivity)
+## Process each matrix formed by the split fuction and calculate the mean
+## Start by setting up the base file, the max value of the counter and 
+## the initial value of the counter
 
-
+        lastmatrix <-length(splitfile)
+        counter<-1
+        temp_file <-as.data.frame(splitfile[counter])
+	  temp2 <-lapply(temp_file[,3:81],mean)
+        base_file <-append(temp_file[1,1:2],temp2)
+        base_file <- data.frame(base_file)
+	  colnames(base_file)<-colnames(tidyUCIHAR)
+ 
+        counter<-counter+1
+        while (counter<=lastmatrix) {
+            # read nextmatrix, calculate mean for all variables and 
+		# append result to base_file 
+            temp_file <-as.data.frame(splitfile[counter])
+	      temp2 <-lapply(temp_file[,3:81],mean)
+	      new_file <-append(temp_file[1,1:2],temp2)
+            new_file <- data.frame(new_file)
+            colnames(new_file)<-colnames(tidyUCIHAR)
+            base_file<-rbind(base_file,new_file)
+            counter<-counter+1
+         }
+		tidyUCIHARmeans<-base_file
+ 
 
