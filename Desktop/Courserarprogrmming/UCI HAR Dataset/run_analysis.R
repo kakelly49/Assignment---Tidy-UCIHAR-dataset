@@ -1,4 +1,7 @@
 ## Run_analysis.R - creating a tidy version of a subset of the UCIHAR datasets
+## Download and unzip files. Set directory in R to folder where files are saved
+      download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip", destfile="UCI_HAR_dataset")
+      unzip("UCI_HAR_dataset")
       library(dplyr)
 ## read the following files as tables from the test folder:
 ##    - X_test, Y_test, subject_test
